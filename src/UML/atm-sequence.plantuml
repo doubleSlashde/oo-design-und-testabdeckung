@@ -1,0 +1,50 @@
+@startuml
+
+Actor Customer
+
+Customer -> ATM : withdrawMoney(amount, pin)
+activate ATM
+
+
+ATM -> CardReader : verifyPin(pin)
+activate CardReader
+
+CardReader -> ATM : isPinCorrect
+
+alt isPinCorrect == true
+
+ATM -> CardReader : readAccountNumber()
+CardReader -> ATM : accountNumber
+
+deactivate CardReader
+
+ATM -> AccountingService : withdrawAmount(amount, accountNumber)
+activate AccountingService
+
+AccountingService -> ATM : success
+deactivate AccountingService
+
+alt success == true
+
+ATM -> MoneyDispenser : dispenseCash(amount)
+activate MoneyDispenser
+
+MoneyDispenser -> ATM : money
+deactivate MoneyDispenser
+
+ATM -> Customer : money
+
+else success == false
+
+ATM -> Customer : display("Transaction not possible")
+
+end
+
+else isPinCorrect == false
+
+ATM -> Customer : display("PIN is incorrect")
+
+end
+
+deactivate ATM
+@enduml
