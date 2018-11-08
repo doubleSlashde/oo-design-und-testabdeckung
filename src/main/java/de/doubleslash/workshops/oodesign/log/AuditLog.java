@@ -1,9 +1,9 @@
 package de.doubleslash.workshops.oodesign.log;
 
 /**
- * Einfache Log-Implementierung, die die Lognachrichten auf die Konsole schreibt (den Loglevel vorangestellt).
+ * Einfache AuditLog-Implementierung, die die Lognachrichten auf die Konsole schreibt (den Loglevel vorangestellt).
  */
-public class Log {
+public class AuditLog {
 
     private enum LogLevel {
         INFO, WARN, ERROR;

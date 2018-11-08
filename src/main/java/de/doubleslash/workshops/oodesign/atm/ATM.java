@@ -1,7 +1,5 @@
 package de.doubleslash.workshops.oodesign.atm;
 
-import de.doubleslash.workshops.oodesign.log.Log;
-
 /**
  * Geldautomat (ATM = Automatic Teller Machine).
  */
@@ -46,15 +44,15 @@ public class ATM {
                     // Ausgabe des Geldes
                     moneyDispenser.dispenseCash(amount);
                 } else {
-                    Log.error("Abbruch wegen Fehler beim Verbuchen der Transaktion");
+                    System.out.println("Abbruch wegen Fehler beim Verbuchen der Transaktion");
                     // ... Anzeige einer entsprechenden Fehlermeldung für den Kunden ...
                 }
             } catch (CardReaderException e) {
-                Log.error("Fehler beim Lesen der Karte: " + e.getMessage());
+                System.out.println("Fehler beim Lesen der Karte: " + e.getMessage());
                 // ... Anzeige einer entsprechenden Fehlermeldung für den Kunden ...
             }
         } else {
-            Log.error("PIN ist inkorrekt.");
+            System.out.println("Fehler: PIN ist inkorrekt.");
             // ... Anzeige einer entsprechenden Fehlermeldung für den Kunden ...
         }
     }

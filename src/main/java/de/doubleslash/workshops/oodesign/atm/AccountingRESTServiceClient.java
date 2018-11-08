@@ -1,7 +1,7 @@
 package de.doubleslash.workshops.oodesign.atm;
 
 
-import de.doubleslash.workshops.oodesign.log.Log;
+import de.doubleslash.workshops.oodesign.log.AuditLog;
 
 /**
  * Konto-Service zum Verbuchen der Abhebungen.
@@ -17,7 +17,7 @@ public class AccountingRESTServiceClient {
      * Konstruktor. Erzeugt die {@link AccountingRESTServiceClient}-Instanz.
      */
     private AccountingRESTServiceClient() {
-        Log.info("AccountingRESTServiceClient-Instanz wird erzeugt.");
+        AuditLog.info("AccountingRESTServiceClient-Instanz wird erzeugt.");
     }
 
     /**
@@ -27,7 +27,7 @@ public class AccountingRESTServiceClient {
      * @return die {@link AccountingRESTServiceClient}-Instanz.
      */
     public static synchronized AccountingRESTServiceClient getInstance() {
-        Log.info("Aufruf von AccountingRESTServiceClient.getInstance()");
+        AuditLog.info("Aufruf von AccountingRESTServiceClient.getInstance()");
         if (instance == null) {
             instance = new AccountingRESTServiceClient();
         }
@@ -43,7 +43,7 @@ public class AccountingRESTServiceClient {
      * @return {@code true} wenn die Verbuchung erfolgreich war, andernfalls {@code false}.
      */
     public boolean withdrawAmount(double amount, int bankAccountNumber) {
-        Log.info("AccountingRESTServiceClient: Verbuche Auszahlung von Betrag %s auf Kontonummer %s.", amount, bankAccountNumber);
+        AuditLog.info("AccountingRESTServiceClient: Verbuche Auszahlung von Betrag %s auf Kontonummer %s.", amount, bankAccountNumber);
         return true;
     }
     
