@@ -18,11 +18,11 @@ CardReader -> ATM : accountNumber
 
 deactivate CardReader
 
-ATM -> AccountingService : withdrawAmount(amount, accountNumber)
-activate AccountingService
+ATM -> AccountingRESTServiceClient : withdrawAmount(amount, accountNumber)
+activate AccountingRESTServiceClient
 
-AccountingService -> ATM : success
-deactivate AccountingService
+AccountingRESTServiceClient -> ATM : success
+deactivate AccountingRESTServiceClient
 
 alt success == true
 
