@@ -1,7 +1,7 @@
 package de.doubleslash.workshops.oodesign.atm;
 
 /**
- * Klasse mit main-Methode zum Starten des Programms.
+ * Klasse mit main-Methode zum Starten des Geldautomaten-Programms.
  */
 public class Main {
 
