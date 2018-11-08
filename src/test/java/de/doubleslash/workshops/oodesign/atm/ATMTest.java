@@ -1,10 +1,9 @@
-package test.de.doubleslash.workshops.oodesign.atm;
-
-import de.doubleslash.workshops.oodesign.atm.ATM;
-import org.junit.Before;
-import org.junit.Test;
+package de.doubleslash.workshops.oodesign.atm;
 
 import static org.junit.Assert.fail;
+
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Testet die Klasse ATM.

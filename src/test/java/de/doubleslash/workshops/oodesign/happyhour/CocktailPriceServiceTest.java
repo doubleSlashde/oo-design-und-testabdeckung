@@ -1,14 +1,12 @@
-package test.de.doubleslash.workshops.oodesign.happyhour;
-
-import de.doubleslash.workshops.oodesign.happyhour.CocktailPriceService;
-
-import org.junit.Test;
-
-import java.util.Map;
+package de.doubleslash.workshops.oodesign.happyhour;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+
+import java.util.Map;
+
+import org.junit.Test;
 
 /**
  * Testet den {@link CocktailPriceService}.

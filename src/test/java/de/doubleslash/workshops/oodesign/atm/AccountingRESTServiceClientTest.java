@@ -1,11 +1,9 @@
-package test.de.doubleslash.workshops.oodesign.atm;
+package de.doubleslash.workshops.oodesign.atm;
 
 import static org.junit.Assert.fail;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import de.doubleslash.workshops.oodesign.atm.AccountingRESTServiceClient;
 
 public class AccountingRESTServiceClientTest {
 
