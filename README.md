@@ -12,11 +12,16 @@ verständlich und leichter wartbar.
 * Eine IDE mit Funktion zur Messung der Testabdeckung, z.B.
   * __IntelliJ IDEA__ (Community oder Ultimate Edition) - oder
   * __Eclipse__ mit EclEmma und M2Eclipse Plugins
-
+* Grundlegende Kenntnisse in 
+  * objektorientierter Programmierung mit Java (Klasse, Interface, Objekt, Konstruktor)
+  * JUnit
+  * der `java.time` API
+  * Mockito
+ 
 ## Verwendete Frameworks:
  
 * [JUnit 4](https://junit.org/junit4/) - zum Implementieren und Ausführen von Unit-Tests.
-* [Mockito](https://site.mockito.org/) - zum Ersetzen von Abhängigkeiten durch Testdoubles .
+* [Mockito](https://site.mockito.org/) - zum Ersetzen von Abhängigkeiten durch Testdoubles.
 * [Apache Maven](https://maven.apache.org/) - Zur Verwaltung der Dependencies (Bibliotheken).
 
 ## Aufsetzen des Projekts
@@ -69,4 +74,71 @@ damit das Testen des Service zu "unterschiedlichen Uhrzeiten" möglich wird.
    
    => Der `CocktailPriceServiceTest` sollte jetzt erfolgreich durchlaufen. 
 
+## Szenario 2: "Geldautomat"
 
+Die Klasse `de.doubleslash.workshops.oodesign.atm.ATM` (Automatic Teller Machine) repräsentiert 
+einen **Geldautomaten**, mit dem Kunden einer Bank sich Geld auszahlen lassen können. 
+
+Die Klasse `ATM` hat die folgenden **Abhängigkeiten**:
+
+* **`CardReader`**: repräsentiert eine Hardwarekomponente, die die vom Benutzer eingegebene PIN verifiziert 
+    und die Kontonummer ausliest
+* **`AccountingRESTServiceClient`**: ruft einen REST-Service auf, über den die Abhebung auf dem Konto des Kunden verbucht wird
+* **`MoneyDispenser`**: repräsentiert die Hardwarekomponente, die das Bargeld enthält und ausgibt.
+
+Folgender Prozess ist in `ATM` implementiert:
+![ATM](./src/UML/atm-sequence.png)
+
+### Ausgangssituation
+
+Offensichtlich wurde die Klasse `ATM` nicht testgetrieben entwickelt. Denn sie ist so gestaltet, 
+dass sie ihre Abhängigkeiten selbst in ihrem Konstruktor erzeugt. Das macht die Klasse untestbar, denn
+es ist nicht möglich, ihre Abhängigkeiten durch Testdoubles auszutauschen (diesen Vorgang nennt man
+"mocken"; hierfür wird üblicherweise ein Mocking-Framework wie [Mockito](https://site.mockito.org/) verwendet).
+
+Darüber hinaus ist die Klasse `de.doubleslash.workshops.oodesign.atm.AccountingRESTServiceClient` als 
+Singleton implementiert. Dadurch kann in der laufenden Anwendung nur eine einzige Instanz existieren,
+was das Testen zusätzlich erschwert.  
+
+### Aufgabe 2.1: Audit-Log des Konto-Service testen
+
+Die Klasse `AccountingRESTServiceClient` loggt alle Verbuchungen der Geldabhebungen. 
+Da die Bank Audit-Verpflichtungen hat, soll ein Test sicherstellen, dass der Logaufruf tatsächlich passiert. 
+Dafür wurde das Testgerüst `de.doubleslash.workshops.oodesign.atm.AccountingRESTServiceClientTest` angelegt.
+Das Problem hierbei ist, dass die Logmethoden der Klasse `AuditLog` `static` sind 
+und nicht ohne weiteres gemockt werden können.
+
+1. Zunächst sorgen Sie dafür, dass die Klasse `de.doubleslash.workshops.oodesign.atm.AccountingRESTServiceClient` 
+   kein Singleton mehr ist. Entfernen Sie dazu die Methode `getInstance()` sowie die statische Klassenvariable 
+   `instance`, und machen Sie den Konstruktor `public`.
+1. Ändern Sie die Log-Methoden `info`, `warn` und `error` der Klasse `de.doubleslash.workshops.oodesign.atm.log.AuditLog` 
+   so dass diese nicht mehr `static` sind.
+1. Fügen Sie dem Konstruktor von `AccountingRESTServiceClient` einen Parameter vom Typ `AuditLog` hinzu, und speichern Sie das 
+   übergebene Argument als Instanzvariable mit Namen `log`.
+1. Ersetzen Sie alle statischen Log-Aufrufe in der Klasse durch Aufrufe auf die neue `log`-Variable.
+1. Die Klasse `ATM` kompiliert nun nicht mehr. Ändern Sie die Initailisierung der Variable `accountingService`, indem Sie 
+   die Klasse `AccountingRESTServiceClient` über ihren Konstruktor initialisieren, dem Sie eine neue Instanz von `AuditLog` 
+   mitgeben.
+1. Tun Sie dasselbe in `AccountingRESTServiceClientTest` bei der Initialisierung von `testee`, damit auch die Testklasse 
+   wieder kompiliert.
+1. Nun soll die Klasse `AccountingRESTServiceClient` von ihrer Abhängigkeit zu `AuditLog` entkoppelt werden. Erstellen Sie 
+   dazu ein neues Interface namens `Log` mit den Methoden `info`, `warn` und `error` wie sie in `AuditLog` definiert sind, 
+   und lassen Sie `AuditLog` das Interface implementieren.
+   Hierfür können Sie das "Extract Interface"-Refactoring Ihrer IDE nutzen. Die Enum `LogLevel` wandert von `AuditLog` 
+   in das `Log`-Interface.
+1. Ersetzen Sie im `AccountingRESTServiceClient` alle Stellen wo `AuditLog` verwendet wird durch das Interface `Log`. 
+   Jetzt ist der `AccountingRESTServiceClient` nicht mehr abhängig von der konkreten `AuditLog`-Implementierung.
+1. Um das Logging des `AccountingRESTServiceClient` testen zu können, erstellen Sie nun eine weitere Implementierung des
+   `Log`-Interfaces namens `TestLog`, die ausschließlich fürs Testen gedacht ist. Daher landet die Klasse unterhalb von 
+   `src\test\java\...`, d.h. im selben Verzeichnis wie die `AccountingRESTServiceClientTest`-Klasse.
+1. Implementieren Sie die `info`-Methode der `TestLog`-Klasse so, dass sie alle geloggten Nachrichten in einer `List` 
+   speichert.
+   
+   _Tipp:_ nutzen Sie hierfür die Methode `String#format(...)`, wie sie auch in `AuditLog` verwendet wird. 
+1. Fügen Sie `TestLog` eine Methode `getLogMessages()` hinzu, die die Liste zurückgibt.
+1. Im `AccountingRESTServiceClientTest` verwenden Sie nun statt `AuditLog` eine `TestLog`-Instanz. Diese muss als 
+   Klassenattribut gespeichert werden, damit die Testmethode darauf zugreifen kann.
+1. Jetzt können Sie die Testmethode `accountingServiceShouldLogTransaction()` fertig implementieren, indem Sie 
+   die Liste der geloggten Nachrichten von `TestLog` abfragen und in der lokalen Variablen `loggedMessages` speichern.
+   
+   => Der `AccountingRESTServiceClientTest` sollte nun erfolgreich durchlaufen.

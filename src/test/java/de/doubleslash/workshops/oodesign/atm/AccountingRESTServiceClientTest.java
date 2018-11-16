@@ -1,6 +1,10 @@
 package de.doubleslash.workshops.oodesign.atm;
 
-import static org.junit.Assert.fail;
+import static org.hamcrest.core.IsCollectionContaining.hasItem;
+import static org.junit.Assert.assertThat;
+
+import java.util.Collections;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -24,8 +28,10 @@ public class AccountingRESTServiceClientTest {
         testee.withdrawAmount(100.00, 543_210);
 
         // assert
+        String expectedLogMessage = "AccountingRESTServiceClient: Verbuche Auszahlung von Betrag 100.0 auf Kontonummer 543210.";
         // ??? wie prüfen wir dass die Transaktion geloggt wurde?
-        fail("Cannot test this!");
+        List<String> loggedMessages = Collections.emptyList(); // => woher bekommen wir die vom AccountingRESTSerive geloggten Nachrichten?
+        assertThat(loggedMessages, hasItem(expectedLogMessage));
     }
 
 }
