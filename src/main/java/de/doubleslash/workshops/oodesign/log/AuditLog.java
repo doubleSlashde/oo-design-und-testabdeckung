@@ -31,7 +31,7 @@ public class AuditLog {
      * @param messageArgs Liste von Objekten, die in die Nachricht hineinformatiert werden.
      */
 
-    private static void warn(final String message, final Object... messageArgs) {
+    public static void warn(final String message, final Object... messageArgs) {
         log(LogLevel.WARN, message, messageArgs);
     }
 
