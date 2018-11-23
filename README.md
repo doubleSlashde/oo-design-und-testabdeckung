@@ -18,7 +18,7 @@ ausschließlich ihrer eigentlichen Aufgabe widmen.
 Fürs Testen bedeutet das, dass die Abhängigkeiten einfach durch Mock-Objekte ersetzt werden können, was das 
 unabhängige Testen der einzelnen Klassen ermöglicht.
 
-## Vorausetzungen
+## Voraussetzungen
 
 * Git
 * Java 8
