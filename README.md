@@ -205,6 +205,9 @@ getestet werden kann, muss sie zunächst einem Refactoring unterzogen werden. Da
    `CardReader cardReaderMock = Mockito.mock(CardReader.class);` 
    
    Die Mock-Objekte müssen als Instanzvariablen der Testklasse definiert werden, damit die Testmethoden darauf zugreifen können.
+   
+   __Tipp:__ Verwenden Sie statische imports, z.B. `import static org.mockito.Mockito.mock;`. 
+   Statt `Mockito.mock(...)` können Sie dann einfach `mock(...)` aufrufen. Das verbessert die Lesbarkeit des Codes.
 
 1. Jetzt können die Testmethoden in `ATMTest` fertig implementiert werden. Beginnen Sie mit der ersten Methode
    `accountingServiceShouldBeCalledWithCorrect...`.
@@ -228,7 +231,7 @@ getestet werden kann, muss sie zunächst einem Refactoring unterzogen werden. Da
 
 1. Implementieren Sie die restlichen Testmethoden nach dem gleichen Schema, bis die ganze Testklasse "grün" ist.
    
-__Mockito-Tipps:__ 
+__Mockito-Tipps:__
 * Es ist auch möglich zu verifizieren, dass eine bestimmte Methode (z.B. `xyz(...)`) auf einem Mock (z.B. `myMock`) _nicht_ aufgerufen wurde:
 `Mockito.verify(myMock, Mockito.never()).xyz(...);`
 * Wenn bei Methodenaufrufen auf Mock-Objekte der Wert der Argumente egal ist, können Sie statt konkreten Werten
