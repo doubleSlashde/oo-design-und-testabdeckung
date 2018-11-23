@@ -5,6 +5,16 @@ so designt werden kann, dass der Code gut mit Unit-Tests getestet werden kann. A
 ein gutes Code-Design, in dem die Klassen von ihren Abhängigkeit entkoppelt sind. Das macht den Code besser 
 verständlich und leichter wartbar.
 
+Der Schlüssel hierfür ist "Dependency Injection" (DI) - das heißt, ein Objekt erzeugt bzw. erschafft sich seine
+Abhängigkeiten nicht mehr seilbst; stattdessen werden diese von außen in das Objekt hinein gegeben. 
+Dafür ist nicht unbedingt ein DI-Framework wie Spring oder JEE/CDI notwendig. 
+Hier verwenden wir "manuelle DI" mittels _Constructor Injection_: die Abhängigkeiten werden dem Objekt 
+im Konstruktor übergeben.
+
+Dependency Injection erfüllt gleichzeitig das "Single Responsibility Principle" - Objekte werden von der 
+zusätzlichen Verantwortlichkeit befreit, ihre Abhängigkeiten selbst zu erzeugen bzw. zu beschaffen, und können sich
+ausschließlich ihrer eigentlichen Aufgabe widmen. 
+
 ## Vorausetzungen
 
 * Git
@@ -36,7 +46,7 @@ verständlich und leichter wartbar.
    ```> mvnw.cmd clean install```
 
 Der Build wird fehlschlagen, da die Unit-Tests noch nicht funktionsfähig sind. Ihre Aufgabe wird nun sein, die Testfälle 
-"grün" zu machen ;-)
+"grün" zu machen.
 
 ## Szenario 1: "Happy Hour"
 
