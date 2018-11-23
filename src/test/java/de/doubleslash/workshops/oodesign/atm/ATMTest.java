@@ -48,7 +48,8 @@ public class ATMTest {
     @Test
     public void accountingServiceShouldNotBeCalledWhenCardCannotBeRead() {
         // arrange
-        // ??? wie simulieren wir eine CardReaderException?
+        // ??? wie können wir simulieren dass die PIN vom Kunden korrekt eingegeben wurde?
+        // ??? wie simulieren wir eine CardReaderException beim Aufruf von readAccountNumber() ?
 
         // act
         testee.withdrawMoney(1234, 100.0);

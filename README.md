@@ -1,8 +1,8 @@
 # "Hohe Testabdeckung durch gutes OO-Design"
 
 Dieses Projekt enthält den Quellcode für einen Workshop, in dem gezeigt wird wie objektorientierter Java-Code
-so designt werden kann, dass der Code gut (automatisiert) getestet werden kann. Als "Nebeneffekt" erhält man
-ein gutes Code-Design, in dem die Klassen von ihren Abhängigkeit entkoppelt sind. Dies macht den Code besser 
+so designt werden kann, dass der Code gut mit Unit-Tests getestet werden kann. Als "Nebeneffekt" erhält man
+ein gutes Code-Design, in dem die Klassen von ihren Abhängigkeit entkoppelt sind. Das macht den Code besser 
 verständlich und leichter wartbar.
 
 ## Vorausetzungen
@@ -11,11 +11,11 @@ verständlich und leichter wartbar.
 * Java 8
 * Eine IDE mit Funktion zur Messung der Testabdeckung, z.B.
   * __IntelliJ IDEA__ (Community oder Ultimate Edition) - oder
-  * __Eclipse__ mit EclEmma und M2Eclipse Plugins
-* Grundlegende Kenntnisse in 
-  * objektorientierter Programmierung mit Java (Klasse, Interface, Objekt, Konstruktor)
+  * __Eclipse__ mit EclEmma- und M2Eclipse-Plugins
+* Grundlegende Kenntnisse in den folgenden Themengebieten:
+  * objektorientierte Programmierung mit Java (Klasse, Instanz bzw. Objekt, Interface, Konstruktor)
   * JUnit
-  * der `java.time` API
+  * `java.time` API
   * Mockito
  
 ## Verwendete Frameworks:
@@ -28,10 +28,12 @@ verständlich und leichter wartbar.
 
 1. Klonen Sie dieses Projekt von GitHub.
 1. Führen Sie im obersten Verzeichnis des Projekts auf einer Kommandozeile folgenden Befehl aus:
+   
+   Linux:
+   ```$ mvnw clean install```
 
-   ```$ mvnw clean install``` (Linux)
-
-   ```$ mvnw.cmd clean install``` (Windows)
+   Windows:
+   ```> mvnw.cmd clean install```
 
 Der Build wird fehlschlagen, da die Unit-Tests noch nicht funktionsfähig sind. Ihre Aufgabe wird nun sein, die Testfälle 
 "grün" zu machen ;-)
@@ -40,17 +42,17 @@ Der Build wird fehlschlagen, da die Unit-Tests noch nicht funktionsfähig sind. 
 
 ### Ausgangssituation
 
-Die Klasse `de.doubleslash.workshops.oodesign.happyhour.PriceService` liefert Preise für Cocktails -
-und zwar unterschiedliche Preise, je nachdem ob gerade Happy Hour ist oder nicht, was wiederum von der aktuellen Uhrzeit abhängt. 
+Die Klasse `de.doubleslash.workshops.oodesign.happyhour.PriceService` liefert __Preise für Cocktails__ -
+und zwar unterschiedlich, je nachdem ob gerade Happy Hour ist oder nicht. Das wiederum hängt von der aktuellen Uhrzeit ab. 
 
-Zum Testen dieser Funktionalität wurde die Klasse `de.doubleslash.workshops.oodesign.happyhour.PriceServiceTest`
-angelegt. Sie enthält Testmethoden zum Testen der Preise innerhalb sowie außerhalb der Happy Hour. Da immer nur eins
+Zum Testen dieser Funktionalität wurde die Testklasse `de.doubleslash.workshops.oodesign.happyhour.PriceServiceTest`
+angelegt. Sie enthält Methoden zum Testen der Preise innerhalb sowie außerhalb der Happy Hour. Da zur gleichen Zeit immer nur eins
 von beiden der Fall sein kann, werden immer zwei der vier Testmethoden fehlschlagen. 
 
 #### Aufgabe 1: Testen des "PriceService"
 
-Der `PriceService` muss von der Abhängigkeit "Zeit", also von der internen Nutzung von `LocalTime.now()` entkoppelt werden, 
-damit das Testen des Service zu "unterschiedlichen Uhrzeiten" möglich wird.
+Der `PriceService` muss von der Abhängigkeit "Zeit" entkoppelt werden, damit das Testen des Service zu "unterschiedlichen Uhrzeiten" möglich wird.
+Die Abhängigkeit entsteht durch die Nutzung von `LocalTime.now()` im Programmcode. 
 
 1. Starten Sie den UnitTest `CocktailPriceServiceTest`. Sehen Sie wie zwei der vier Testmethoden fehlschlagen.
 
@@ -61,23 +63,24 @@ damit das Testen des Service zu "unterschiedlichen Uhrzeiten" möglich wird.
    `LocalDate.now()` zurück.
 
 1. Fügen Sie dem Konstruktor der Klasse `CocktailPriceService` einen Parameter vom Interface-Typ `TimeProvider`
-   hinzu. Speichern Sie das Argument als Klassenattribut namens `timeProvider`.
+   hinzu. Speichern Sie das Argument in einer Instanzvariable namens `timeProvider`.
 
 1. Ersetzen Sie den Ausdruck `LocalTime.now()` in der Klasse `CocktailPriceService` durch `timeProvider.getCurrentTime()`.
 
-1. Die `Main`-Klasse im Package `happyhour` kompiliert jetzt nicht mehr, da der Konstruktor von `CocktailPriceService` nun 
-   einen Parameter vom Typ `TimeProvider` erwartet. Übergeben Sie im Konstruktor eine Instanz der Klasse `CurrentTimeProvider`. 
+1. Die `Main`-Klasse im Package `happyhour` kompiliert nicht mehr, da der Konstruktor von `CocktailPriceService` nun 
+   einen Parameter vom Typ `TimeProvider` erwartet. Übergeben Sie im Konstruktor eine neue Instanz der Klasse `CurrentTimeProvider`. 
 
-1. Die Testklasse `CocktailPriceServiceTest` kompiliert auch nicht mehr, ebenfalls wegen des geänderten Konstruktors.
+1. Auch der `CocktailPriceServiceTest` kompiliert nicht mehr, ebenfalls aufgrund des geänderten Konstruktors.
    Hier soll allerdings nicht der `CurrentTimeProvider` verwendet werden, da wir in den Tests kontrollieren möchten, welche
    Zeit vom `TimeProvider` zurückgegeben wird. 
    
    Schreiben Sie eine weitere Implementierung von `TimeProvider` eigens für den Unit-Test, und nennen Sie 
-   sie `TestTimeProvider`. Die Klasse bekommt einen Konstruktor mit einem `LocalTime`-Parameter. Die dort übergebene Instanz
-   wird von der `getCurrentTime()`-Methode zurückgegeben.
+   sie `TestTimeProvider`. Die Klasse bekommt einen Konstruktor, der einen `LocalTime`-Parameter entgegen nimmt. 
+   Die dort übergebene Instanz wird von der `getCurrentTime()`-Methode zurückgegeben.
 
 1. In der Methode `priceServiceAtTime` von `CocktailPriceServiceTest` übergeben Sie dem Konstruktor von `CocktailPriceService`
-   nun ein `LocalTime`-Objekt mit der Uhrzeit aus den Methodenargumenten (`hour` und `minute`).
+   nun ein `TestTimeProvider`-Objekt, das mit einer `LocalTime`-Instanz mit der Uhrzeit aus den Methodenargumenten `hour` und `minute`
+   initialisiert wird. __Tipp:__ Verwenden Sie `LocalTime.of(...)`.
    
    => Der `CocktailPriceServiceTest` sollte jetzt erfolgreich durchlaufen. 
 
@@ -86,11 +89,11 @@ damit das Testen des Service zu "unterschiedlichen Uhrzeiten" möglich wird.
 Die Klasse `de.doubleslash.workshops.oodesign.atm.ATM` (Automatic Teller Machine) repräsentiert 
 einen **Geldautomaten**, mit dem Kunden einer Bank sich Geld auszahlen lassen können. 
 
-Die Klasse `ATM` hat die folgenden **Abhängigkeiten**:
+Die Klasse `ATM` hat folgende **Abhängigkeiten**:
 
 * **`CardReader`**: repräsentiert eine Hardwarekomponente, die die vom Benutzer eingegebene PIN verifiziert 
-    und die Kontonummer ausliest
-* **`AccountingRESTServiceClient`**: ruft einen REST-Service auf, über den die Abhebung auf dem Konto des Kunden verbucht wird
+    und die Kontonummer ausliest.
+* **`AccountingRESTServiceClient`**: ruft einen REST-Service auf, über den die Abhebung auf dem Konto des Kunden verbucht wird.
 * **`MoneyDispenser`**: repräsentiert die Hardwarekomponente, die das Bargeld enthält und ausgibt.
 
 Folgender Prozess ist in `ATM` implementiert:
@@ -136,11 +139,11 @@ und nicht ohne weiteres gemockt werden können.
 
 1. Nun soll die Klasse `AccountingRESTServiceClient` von ihrer Abhängigkeit zu `AuditLog` entkoppelt werden. Erstellen Sie 
    dazu ein neues Interface namens `Log` mit den Methoden `info`, `warn` und `error` wie sie in `AuditLog` definiert sind, 
-   und lassen Sie `AuditLog` das Interface implementieren.
-   Hierfür können Sie das "Extract Interface"-Refactoring Ihrer IDE nutzen. Die Enum `LogLevel` wandert von `AuditLog` 
-   in das `Log`-Interface.
+   und lassen Sie `AuditLog` das Interface implementieren. Das Enum `LogLevel` wandert von `AuditLog` in das `Log`-Interface.
+   
+   __Tipp:__ Hierfür können Sie das "Extract Interface"-Refactoring Ihrer IDE nutzen. 
 
-1. Ersetzen Sie im `AccountingRESTServiceClient` alle Stellen wo `AuditLog` verwendet wird durch das Interface `Log`. 
+1. Ersetzen Sie im `AccountingRESTServiceClient` alle Referenzen zu `AuditLog` durch das Interface `Log`. 
    Jetzt ist der `AccountingRESTServiceClient` nicht mehr abhängig von der konkreten `AuditLog`-Implementierung.
 
 1. Um das Logging des `AccountingRESTServiceClient` testen zu können, erstellen Sie nun eine weitere Implementierung des
@@ -150,7 +153,7 @@ und nicht ohne weiteres gemockt werden können.
 1. Implementieren Sie die `info`-Methode der `TestLog`-Klasse so, dass sie alle geloggten Nachrichten in einer `List` 
    speichert.
    
-   _Tipp:_ nutzen Sie hierfür die Methode `String#format(...)`, wie sie auch in `AuditLog` verwendet wird. 
+   __Tipp:__ nutzen Sie hierfür die Methode `String#format(...)`, wie sie auch in `AuditLog` verwendet wird. 
 
 1. Fügen Sie `TestLog` eine Methode `getLogMessages()` hinzu, die die Liste zurückgibt.
 
@@ -177,7 +180,8 @@ getestet werden kann, muss sie zunächst einem Refactoring unterzogen werden. Da
 
 1. Der Konstruktor von `ATM` erzeugt seine Abhängigkeiten selbst (`CardReader`, `AccountingRESTServiceClient` und `MoneyDispenser`).
    Ändern Sie dies, indem Sie den Konstruktor von `ATM` so erweitern, dass er Objekte dieser drei Klassen als Parameter entgegen nimmt.
-   Speichern Sie die Argumente aus dem Konstruktor anstelle der mit `new` erzeugten Instanzen in den Klassenvariablen.
+   Speichern Sie die Argumente aus dem Konstruktor anstelle der mit `new` erzeugten Instanzen in den vorhandenen Klassenvariablen.
+
 1. Die Methode `Main` kompiliert nicht mehr. Korrigieren Sie dies, indem Sie die erwarteten Konstruktor-Parameter bei der Instanzierung von `ATM` hinzufügen (`new CardReader()` etc.).
 
 1. Die Testklasse `ATMTest` kompiliert ebenfalls nicht mehr. Bei der Instanzierung von `testee` (d.h. "Testkandidat") verwenden Sie 
@@ -232,7 +236,9 @@ Der Klasse `ATM` sollte es allerdings egal sein, ob der verwendete Service techn
 Sollte der Service tatsächlich einmal durch eine andere Implementierung ersetzt werden, müsste `ATM` in ihrem jetzigen Zustand ebenfalls angepasst werden.
 
 Zudem wäre es möglich, dass `ATM` Methoden von `AccountingRESTServiceClient` aufruft, die eigentlich Implementierungsdetails sind
-(z.B. REST-spezifisch). In dem Fall wäre der Änderungsaufwand beim Austausch der Accounting-Service-Implementierung noch größer.
+(z.B. REST-spezifisch). In dem Fall wäre der Änderungsaufwand beim Austausch der Accounting-Service-Implementierung noch größer,
+da diese implementierungsspezifischen Aufrufe entfernt werden müssen.
+
 
 Hier können Sie Abhilfe schaffen, indem Sie `ATM` von der konkreten Accounting-Service-Implementierung entkoppeln:
 
@@ -242,9 +248,10 @@ Hier können Sie Abhilfe schaffen, indem Sie `ATM` von der konkreten Accounting-
 1. Gehen Sie in `ATMTest` ebenso vor. Der `ATMTest` sollte nach wie vor erfolgreich durchlaufen.
 
 => `ATM` ist nun unabhängig von konkreten `AccountService`-Implementierungen. Der `AccountingRESRServiceClient` kann nun 
-durch eine andere Klasse ausgetauscht werden, ohne dass `ATM` oder deren Test angefasst werden muss. Aufgrund des Interfaces
- ist es auch nicht mehr möglich, dass `ATM` implementationsspezifische Methoden des verwendeten AccountService aufruft.
+durch eine andere Klasse ausgetauscht werden, ohne dass `ATM` oder deren Test angefasst werden müssen. Aufgrund des Interfaces
+ ist es auch nicht mehr möglich, dass `ATM` implementationsspezifische Methoden des verwendeten AccountService verwendet.
   
+`ATM` ist nun lose an den `AccountingService` gekoppelt. 
 Die Wartbarkeit des Codes wurde dadurch beträchtlich gesteigert.
 
 ## Testbarkeit & Testabdeckung
