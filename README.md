@@ -163,18 +163,18 @@ und nicht ohne weiteres gemockt werden können.
    `Log`-Interfaces namens `TestLog`, die ausschließlich fürs Testen gedacht ist. Daher landet die Klasse unterhalb von 
    `src\test\java\...`, d.h. im selben Verzeichnis wie die `AccountingRESTServiceClientTest`-Klasse.
 
-1. Implementieren Sie die `info`-Methode der `TestLog`-Klasse so, dass sie alle geloggten Nachrichten in einer `List` 
-   speichert.
+1. Implementieren Sie die `info(...)`-Methode der `TestLog`-Klasse so, dass sie alle dort geloggten Nachrichten in einer `List` 
+   namens `infoMessages` speichert.
    
    __Tipp:__ nutzen Sie hierfür die Methode `String#format(...)`, wie sie auch in `AuditLog` verwendet wird. 
 
-1. Fügen Sie `TestLog` eine Methode `getLogMessages()` hinzu, die die Liste zurückgibt.
+1. Fügen Sie `TestLog` eine Methode `getInfoMessages()` hinzu, die die Liste zurückgibt.
 
 1. Im `AccountingRESTServiceClientTest` verwenden Sie nun statt `AuditLog` eine `TestLog`-Instanz. Diese muss als 
    Klassenattribut gespeichert werden, damit die Testmethode darauf zugreifen kann.
 
 1. Jetzt können Sie die Testmethode `accountingServiceShouldLogTransaction()` fertig implementieren, indem Sie 
-   die Liste der geloggten Nachrichten von `TestLog` abfragen und in der lokalen Variablen `loggedMessages` speichern.
+   die Liste der mit `info(...)` geloggten Nachrichten von `TestLog` abfragen und in der lokalen Variablen `loggedMessages` speichern.
    
    => Der `AccountingRESTServiceClientTest` sollte nun erfolgreich durchlaufen.
 
