@@ -15,6 +15,9 @@ Dependency Injection erfüllt gleichzeitig das "Single Responsibility Principle"
 zusätzlichen Verantwortlichkeit befreit, ihre Abhängigkeiten selbst zu erzeugen bzw. zu beschaffen, und können sich
 ausschließlich ihrer eigentlichen Aufgabe widmen. 
 
+Fürs Testen bedeutet das, dass die Abhängigkeiten einfach durch Mock-Objekte ersetzt werden können, was das 
+unabhängige Testen der einzelnen Klassen ermöglicht.
+
 ## Vorausetzungen
 
 * Git
