@@ -221,5 +221,36 @@ __Mockito-Tipps:__
 * Sollte etwas mit den Mockito-Methoden nicht wie erwartet funktionieren, versichern Sie sich bitte ob die Klammern korrekt gesetzt sind.
 * Das JavaDoc von Mockito gibt Auskunft über die Verwendung der Methoden des Frameworks. 
   
-  _(Unabhängig von Mockito: ein Blick ins JavaDoc lohnt sich immer! ;-)_
+ _(Unabhängig von Mockito: ein Blick ins JavaDoc lohnt sich immer! ;-)_
+
+### Aufgabe 2.3: Entkopplung der Klasse `ATM` von der konkreten `AccountingRESRServiceClient`-Implementierung
+
+Ein Makel im Code-Design existiert immer noch. Die Klasse `ATM` ist abhängig von einer konkreten Account-Service-Implementierung,
+nämlich vom `AccountingRESRServiceClient`.
+
+Der Klasse `ATM` sollte es allerdings egal sein, ob der verwendete Service technisch als REST-Client oder anderweitig realisiert ist.
+Sollte der Service tatsächlich einmal durch eine andere Implementierung ersetzt werden, müsste `ATM` in ihrem jetzigen Zustand ebenfalls angepasst werden.
+
+Zudem wäre es möglich, dass `ATM` Methoden von `AccountingRESTServiceClient` aufruft, die eigentlich Implementierungsdetails sind
+(z.B. REST-spezifisch). In dem Fall wäre der Änderungsaufwand beim Austausch der Accounting-Service-Implementierung noch größer.
+
+Hier können Sie Abhilfe schaffen, indem Sie `ATM` von der konkreten Accounting-Service-Implementierung entkoppeln:
+
+1. Erstellen Sie ein neues Interface mit Namen `AccountingService` und der Methode `boolean withdrawAmount(double amount, int bankAccountNumber);`.
+1. Lassen Sie den `AccountingRESRServiceClient` das Interface implementieren.
+1. Ersetzen Sie in `ATM` alle Referenzen auf `AccountingRESRServiceClient` durch das Interface `AccountingService`. 
+1. Gehen Sie in `ATMTest` ebenso vor. Der `ATMTest` sollte nach wie vor erfolgreich durchlaufen.
+
+=> `ATM` ist nun unabhängig von konkreten `AccountService`-Implementierungen. Der `AccountingRESRServiceClient` kann nun 
+durch eine andere Klasse ausgetauscht werden, ohne dass `ATM` oder deren Test angefasst werden muss. Aufgrund des Interfaces
+ ist es auch nicht mehr möglich, dass `ATM` implementationsspezifische Methoden des verwendeten AccountService aufruft.
   
+Die Wartbarkeit des Codes wurde dadurch beträchtlich gesteigert.
+
+## Testbarkeit & Testabdeckung
+
+Wenn Sie alle Aufgaben gelöst haben und die Testklassen erfolgreich durchlaufen, starten Sie die Tests mit der Funktion zur
+Coverage-Messung in Ihrer IDE. Sie werden feststellen, dass die Testabdeckung der Klassen, für die es Unit-Tests gibt
+(also `PriceService`, `AccountingRESTServiceClient` und `ATM`), jeweils 100% ist! 
+
+Aus den zuvor nicht testbaren Klassen haben Sie Klassen mit __maximaler Testabdeckung__ gemacht. Herzlichen Glückwunsch! `:-)`
