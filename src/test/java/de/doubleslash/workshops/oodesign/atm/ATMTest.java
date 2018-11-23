@@ -36,6 +36,7 @@ public class ATMTest {
     public void moneyShouldBeDispensedWhenPinIsCorrect() {
         // arrange
         // ??? wie können wir simulieren dass die PIN vom Kunden korrekt eingegeben wurde?
+        // ??? wie können wir simulieren dass die Verbuchung via account service erfolgreich war?
 
         // act
         testee.withdrawMoney(1234, 100.0);
