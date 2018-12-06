@@ -189,6 +189,11 @@ Dafür existiert bereits die UnitTest-Klasse `de.doubleslash.workshops.oodesign.
 entsprechenden Testmethoden, die noch ausimplementiert werden müssen. Damit die Klasse `ATM`
 getestet werden kann, muss sie zunächst einem Refactoring unterzogen werden. Danach können die Testmethoden fertiggestellt werden.
 
+1. Schauen Sie sich die Klasse `CardReader` an. Diese simuliert ein Hardware-Modul; daher liefern die Methoden `verifyPin()`und `readAccountNumber()`
+   nicht immer dieselben Ergebnisse. Jede Kundenkarte liefert eine andere Kontonummer, und ab und zu kommt es vor dass
+   ein Kunde seine PIN falsch eingibt. Dieses "zufällige" Verhalten (hier simuliert anhand von zufällig generierten Werten) 
+   erschwert das Testen der Klasse `ATM`, würde diese im Test die "echte" `CardReader`-Implementierung nutzen.
+
 1. Schauen Sie sich die Klasse `ATMTest` und die darin definierten Testfälle an. 
 
 1. Der Konstruktor von `ATM` erzeugt seine Abhängigkeiten selbst (`CardReader`, `AccountingRESTServiceClient` und `MoneyDispenser`).
