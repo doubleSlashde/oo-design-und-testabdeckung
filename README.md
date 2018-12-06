@@ -73,7 +73,7 @@ Die Abhängigkeit entsteht durch die Nutzung von `LocalTime.now()` im Programmco
    mit der Methode `LocalTime getCurrentTime()`.
 
 1. Schreiben Sie eine Klasse `CurrentTimeProvider`, die das Interface implementiert. Die Methode `getCurrentTime()` gibt
-   `LocalDate.now()` zurück.
+   `LocalTime.now()` zurück.
 
 1. Fügen Sie dem Konstruktor der Klasse `CocktailPriceService` einen Parameter vom Interface-Typ `TimeProvider`
    hinzu. Speichern Sie das Argument in einer Instanzvariable namens `timeProvider`.
