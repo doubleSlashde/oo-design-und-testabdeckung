@@ -282,3 +282,5 @@ Coverage-Messung in Ihrer IDE. Sie werden feststellen, dass die Testabdeckung de
 (also `PriceService`, `AccountingRESTServiceClient` und `ATM`), jeweils 100% ist! 
 
 Aus den zuvor nicht testbaren Klassen haben Sie Klassen mit __maximaler Testabdeckung__ gemacht. Herzlichen Glückwunsch! `:-)`
+
+_P.S.: die Lösung ist im Branch `solution` eingecheckt._
