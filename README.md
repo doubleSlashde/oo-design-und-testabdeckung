@@ -11,7 +11,7 @@ Für das Testen bedeutet das, dass die Abhängigkeiten in Tests einfach durch Mo
 ## Voraussetzungen
 
 * Git
-* Java 8
+* Java 11
 * Eine IDE mit Funktion zur Messung der Testabdeckung, z.B.
   * __IntelliJ IDEA__ (Community oder Ultimate Edition) - oder
   * __Eclipse__ mit EclEmma- und M2Eclipse-Plugins
