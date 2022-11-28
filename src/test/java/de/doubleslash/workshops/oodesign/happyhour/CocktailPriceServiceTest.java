@@ -11,10 +11,10 @@ import static org.assertj.core.api.Assertions.assertThat;
  * <p>
  * Problem: abhängig von der aktuellen Uhrzeit können jeweils nur zwei der Tests erfolgreich sein, die anderen beiden schlagen fehl.
  */
-public class CocktailPriceServiceTest {
+class CocktailPriceServiceTest {
 
     @Test
-    public void testPricesOutsideHappyHour() {
+    void testPricesOutsideHappyHour() {
         // arrange
         CocktailPriceService cocktailPriceService = priceServiceAtTime(11, 42);
 
@@ -27,7 +27,7 @@ public class CocktailPriceServiceTest {
     }
 
     @Test
-    public void testPricesOneMinuteBeforeHappyHour() {
+    void testPricesOneMinuteBeforeHappyHour() {
         // arrange
         CocktailPriceService cocktailPriceService = priceServiceAtTime(17, 59);
 
@@ -40,7 +40,7 @@ public class CocktailPriceServiceTest {
     }
 
     @Test
-    public void testPricesAtBeginOfHappyHour() {
+    void testPricesAtBeginOfHappyHour() {
         // arrange
         CocktailPriceService cocktailPriceService = priceServiceAtTime(18, 0);
 
@@ -53,7 +53,7 @@ public class CocktailPriceServiceTest {
     }
 
     @Test
-    public void testPricesWithinHappyHour() {
+    void testPricesWithinHappyHour() {
         // arrange
         CocktailPriceService cocktailPriceService = priceServiceAtTime(19, 25);
 

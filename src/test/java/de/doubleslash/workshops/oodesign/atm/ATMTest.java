@@ -8,18 +8,18 @@ import static org.junit.jupiter.api.Assertions.fail;
 /**
  * Testet die Klasse ATM.
  */
-public class ATMTest {
+class ATMTest {
 
     // Instanz der zu testenden Klasse
     private ATM testee;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         testee = new ATM();
     }
 
     @Test
-    public void accountingServiceShouldBeCalledWithCorrectAmountAndAccountNumberWhenPinIsCorrect() {
+    void accountingServiceShouldBeCalledWithCorrectAmountAndAccountNumberWhenPinIsCorrect() {
         // arrange
         // ??? wie können wir die Kontonummer kennen bzw. bestimmen, die vom CardReader gelesen wird?
         // ??? wie können wir simulieren dass die PIN vom Kunden korrekt eingegeben wurde?
@@ -33,7 +33,7 @@ public class ATMTest {
     }
 
     @Test
-    public void moneyShouldBeDispensedWhenPinIsCorrect() {
+    void moneyShouldBeDispensedWhenPinIsCorrect() {
         // arrange
         // ??? wie können wir simulieren dass die PIN vom Kunden korrekt eingegeben wurde?
         // ??? wie können wir simulieren dass die Verbuchung via account service erfolgreich war?
@@ -47,7 +47,7 @@ public class ATMTest {
     }
 
     @Test
-    public void accountingServiceShouldNotBeCalledWhenCardCannotBeRead() {
+    void accountingServiceShouldNotBeCalledWhenCardCannotBeRead() {
         // arrange
         // ??? wie können wir simulieren dass die PIN vom Kunden korrekt eingegeben wurde?
         // ??? wie simulieren wir eine CardReaderException beim Aufruf von readAccountNumber() ?
@@ -61,7 +61,7 @@ public class ATMTest {
     }
 
     @Test
-    public void accountingServiceShouldNotBeCalledWhenPinIsIncorrect() {
+    void accountingServiceShouldNotBeCalledWhenPinIsIncorrect() {
         // arrange
         // ??? wie simulieren wir die Eingabe einer falschen PIN?
 
@@ -74,7 +74,7 @@ public class ATMTest {
     }
 
     @Test
-    public void moneyShouldNotBeDispensedWhenPinIsIncorrect() {
+    void moneyShouldNotBeDispensedWhenPinIsIncorrect() {
         // arrange
         // ??? wie simulieren wir die Eingabe einer falschen PIN?
 
@@ -87,7 +87,7 @@ public class ATMTest {
     }
 
     @Test
-    public void moneyShouldNotBeDispensedWhenTransactionWasNotBooked() {
+    void moneyShouldNotBeDispensedWhenTransactionWasNotBooked() {
         // arrange
         // ??? wie simulieren wir dass die Verbuchung via AccountingService nicht erfolgreich war?
 

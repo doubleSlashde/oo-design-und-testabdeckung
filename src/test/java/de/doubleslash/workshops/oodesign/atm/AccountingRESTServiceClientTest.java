@@ -8,7 +8,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class AccountingRESTServiceClientTest {
+class AccountingRESTServiceClientTest {
 
     private AccountingRESTServiceClient testee;
 
@@ -18,7 +18,7 @@ public class AccountingRESTServiceClientTest {
     }
 
     @Test
-    public void accountingServiceShouldLogTransaction() {
+    void accountingServiceShouldLogTransaction() {
         // arrange
         // ??? Die Log-Methoden sind statisch. Wie schaffen wir es, den AccountingRESTSerive so aufzusetzen dass wir die
         //     von ihm geloggten Nachrichten im Nachhinein auswerten können?
