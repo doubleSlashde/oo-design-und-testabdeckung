@@ -23,8 +23,9 @@ Für das Testen bedeutet das, dass die Abhängigkeiten in Tests einfach durch Mo
  
 ## Verwendete Frameworks:
  
-* [JUnit 4](https://junit.org/junit4/) - zum Implementieren und Ausführen von Unit-Tests.
+* [JUnit 5](https://junit.org/junit5/) - zum Implementieren und Ausführen von Unit-Tests.
 * [Mockito](https://site.mockito.org/) - zum Ersetzen von Abhängigkeiten durch Testdoubles.
+* [AssertJ](https://assertj.github.io/doc/) - für sprechendere Asserts
 * [Apache Maven](https://maven.apache.org/) - Zur Verwaltung der Dependencies (Bibliotheken).
 
 ## Aufsetzen des Projekts
