@@ -1,22 +1,12 @@
 # "Hohe Testabdeckung durch gutes OO-Design"
 
-Dieses Projekt enthält den Quellcode für einen Workshop, in dem gezeigt wird wie objektorientierter Java-Code
-so designt werden kann, dass der Code gut mit Unit-Tests getestet werden kann. Als "Nebeneffekt" erhält man
-ein gutes Code-Design, in dem die Klassen von ihren Abhängigkeit entkoppelt sind. Das macht den Code besser 
-verständlich und leichter wartbar.
+Dieses Projekt enthält Quellcode, mit dem gezeigt wird, wie objektorientierter Java-Code so designt werden kann, dass der Code gut mit Unit-Tests getestet werden kann. Als "Nebeneffekt" entsteht ein besseres Code-Design, in dem die Klassen von ihren Abhängigkeit entkoppelt sind. Das macht den Code besser verständlich und leichter wartbar.
 
-Der Schlüssel hierfür ist "Dependency Injection" (DI) - das heißt, ein Objekt erzeugt bzw. erschafft sich seine
-Abhängigkeiten nicht mehr selbst; stattdessen werden diese von außen in das Objekt hinein gegeben. 
-Dafür ist nicht unbedingt ein DI-Framework wie Spring oder JEE/CDI notwendig. 
-Hier verwenden wir "manuelle DI" mittels _Constructor Injection_: die Abhängigkeiten werden dem Objekt 
-im Konstruktor übergeben.
+Der Schlüssel hierfür ist "Dependency Injection" (DI) - das heißt, ein Objekt erzeugt bzw. erschafft sich seine Abhängigkeiten nicht mehr selbst; stattdessen werden diese von außen in das Objekt hinein gegeben. Dafür ist nicht unbedingt ein DI-Framework wie Spring oder JEE/CDI notwendig. Hier verwenden wir "manuelle DI" mittels _Constructor Injection_: die abhängigen Module werden dem Objekt im Konstruktor übergeben.
 
-Dependency Injection fördert gleichzeitig das "Single Responsibility Principle": Objekte werden von der 
-zusätzlichen Verantwortlichkeit befreit, ihre Abhängigkeiten selbst zu beschaffen, und können sich
-ausschließlich ihrer eigentlichen Aufgabe widmen. 
+Dependency Injection fördert gleichzeitig das "Single Responsibility Principle": Objekte werden von der zusätzlichen Verantwortlichkeit befreit, ihre Abhängigkeiten selbst zu beschaffen, und können sich ausschließlich ihrer eigentlichen Aufgabe widmen.
 
-Fürs Testen bedeutet das, dass die Abhängigkeiten in Tests einfach durch Mock-Objekte ersetzt werden können, was das 
-unabhängige Testen der einzelnen Klassen ermöglicht.
+Für das Testen bedeutet das, dass die Abhängigkeiten in Tests einfach durch Mock-Objekte ersetzt werden können, was das unabhängige Testen der einzelnen Klassen ermöglicht.
 
 ## Voraussetzungen
 
