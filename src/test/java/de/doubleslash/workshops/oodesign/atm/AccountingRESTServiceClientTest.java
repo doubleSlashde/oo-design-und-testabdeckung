@@ -1,19 +1,18 @@
 package de.doubleslash.workshops.oodesign.atm;
 
-import static org.hamcrest.core.IsCollectionContaining.hasItem;
-import static org.junit.Assert.assertThat;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class AccountingRESTServiceClientTest {
 
     private AccountingRESTServiceClient testee;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         testee = AccountingRESTServiceClient.getInstance();
     }
@@ -31,7 +30,7 @@ public class AccountingRESTServiceClientTest {
         String expectedLogMessage = "AccountingRESTServiceClient: Verbuche Auszahlung von Betrag 100.0 auf Kontonummer 543210.";
         // ??? wie prüfen wir dass die Transaktion geloggt wurde?
         List<String> loggedMessages = Collections.emptyList(); // => woher bekommen wir die vom AccountingRESTSerive geloggten Nachrichten?
-        assertThat(loggedMessages, hasItem(expectedLogMessage));
+        assertThat(loggedMessages).contains(expectedLogMessage);
     }
 
 }

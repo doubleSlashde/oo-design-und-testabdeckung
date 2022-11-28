@@ -1,16 +1,14 @@
 package de.doubleslash.workshops.oodesign.happyhour;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Testet den {@link CocktailPriceService}.
- *
+ * <p>
  * Problem: abhängig von der aktuellen Uhrzeit können jeweils nur zwei der Tests erfolgreich sein, die anderen beiden schlagen fehl.
  */
 public class CocktailPriceServiceTest {
@@ -24,8 +22,8 @@ public class CocktailPriceServiceTest {
         Map<String, Double> prices = cocktailPriceService.getPrices();
 
         // assert
-        assertEquals(prices.get("Caipirinha"), (Double) 7.2d);
-        assertEquals(prices.get("Planter's Punch"), (Double) 7.4d);
+        assertThat(prices.get("Caipirinha")).isEqualTo(7.2d);
+        assertThat(prices.get("Planter's Punch")).isEqualTo(7.4d);
     }
 
     @Test
@@ -37,8 +35,8 @@ public class CocktailPriceServiceTest {
         Map<String, Double> prices = cocktailPriceService.getPrices();
 
         // assert
-        assertEquals(prices.get("Caipirinha"), (Double) 7.2d);
-        assertEquals(prices.get("Planter's Punch"), (Double) 7.4d);
+        assertThat(prices.get("Caipirinha")).isEqualTo(7.2d);
+        assertThat(prices.get("Planter's Punch")).isEqualTo(7.4d);
     }
 
     @Test
@@ -50,8 +48,8 @@ public class CocktailPriceServiceTest {
         Map<String, Double> prices = cocktailPriceService.getPrices();
 
         // assert
-        assertThat(prices.get("Caipirinha"), is(5.0d));
-        assertThat(prices.get("Planter's Punch"), is(5.5d));
+        assertThat(prices.get("Caipirinha")).isEqualTo(5.0d);
+        assertThat(prices.get("Planter's Punch")).isEqualTo(5.5d);
     }
 
     @Test
@@ -63,10 +61,9 @@ public class CocktailPriceServiceTest {
         Map<String, Double> prices = cocktailPriceService.getPrices();
 
         // assert
-        assertThat(prices.get("Caipirinha"), is(5.0d));
-        assertThat(prices.get("Planter's Punch"), is(5.5d));
+        assertThat(prices.get("Caipirinha")).isEqualTo(5.0d);
+        assertThat(prices.get("Planter's Punch")).isEqualTo(5.0d);
     }
-
 
     private CocktailPriceService priceServiceAtTime(int hour, int minute) {
         // ??? CocktailPriceService benutzt LocalTime.now() um die aktuelle Zeit festzustellen.

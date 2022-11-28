@@ -1,9 +1,9 @@
 package de.doubleslash.workshops.oodesign.atm;
 
-import static org.junit.Assert.fail;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Testet die Klasse ATM.
@@ -13,7 +13,7 @@ public class ATMTest {
     // Instanz der zu testenden Klasse
     private ATM testee;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         testee = new ATM();
     }
