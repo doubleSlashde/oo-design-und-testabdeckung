@@ -8,7 +8,7 @@ import java.util.Map;
 public class Main {
 
     public static void main(String[] args) {
-        CocktailPriceService cocktailPriceService = new CocktailPriceService();
+        CocktailPriceService cocktailPriceService = new CocktailPriceService(new CurrentTimeProvider());
 
         System.out.println("Aktuelle Cocktail-Preise: ");
         Map<String, Double> cocktailPrices = cocktailPriceService.getPrices();

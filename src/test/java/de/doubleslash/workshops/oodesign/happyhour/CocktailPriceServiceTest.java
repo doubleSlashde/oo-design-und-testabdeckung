@@ -2,6 +2,7 @@ package de.doubleslash.workshops.oodesign.happyhour;
 
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalTime;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -11,10 +12,10 @@ import static org.assertj.core.api.Assertions.assertThat;
  * <p>
  * Problem: abhängig von der aktuellen Uhrzeit können jeweils nur zwei der Tests erfolgreich sein, die anderen beiden schlagen fehl.
  */
-public class CocktailPriceServiceTest {
+class CocktailPriceServiceTest {
 
     @Test
-    public void testPricesOutsideHappyHour() {
+    void testPricesOutsideHappyHour() {
         // arrange
         CocktailPriceService cocktailPriceService = priceServiceAtTime(11, 42);
 
@@ -27,7 +28,7 @@ public class CocktailPriceServiceTest {
     }
 
     @Test
-    public void testPricesOneMinuteBeforeHappyHour() {
+    void testPricesOneMinuteBeforeHappyHour() {
         // arrange
         CocktailPriceService cocktailPriceService = priceServiceAtTime(17, 59);
 
@@ -40,7 +41,7 @@ public class CocktailPriceServiceTest {
     }
 
     @Test
-    public void testPricesAtBeginOfHappyHour() {
+    void testPricesAtBeginOfHappyHour() {
         // arrange
         CocktailPriceService cocktailPriceService = priceServiceAtTime(18, 0);
 
@@ -53,7 +54,7 @@ public class CocktailPriceServiceTest {
     }
 
     @Test
-    public void testPricesWithinHappyHour() {
+    void testPricesWithinHappyHour() {
         // arrange
         CocktailPriceService cocktailPriceService = priceServiceAtTime(19, 25);
 
@@ -62,13 +63,13 @@ public class CocktailPriceServiceTest {
 
         // assert
         assertThat(prices.get("Caipirinha")).isEqualTo(5.0d);
-        assertThat(prices.get("Planter's Punch")).isEqualTo(5.0d);
+        assertThat(prices.get("Planter's Punch")).isEqualTo(5.5d);
     }
 
     private CocktailPriceService priceServiceAtTime(int hour, int minute) {
         // ??? CocktailPriceService benutzt LocalTime.now() um die aktuelle Zeit festzustellen.
         // ??? Wie können wir die Abhängigkeit "Zeit" kontrollieren und dem CocktailPriceService eine bestimmte Zeit vorgaukeln?
-        return new CocktailPriceService();
+        return new CocktailPriceService(new TestTimeProvider(LocalTime.of(hour, minute)));
     }
 
 }
