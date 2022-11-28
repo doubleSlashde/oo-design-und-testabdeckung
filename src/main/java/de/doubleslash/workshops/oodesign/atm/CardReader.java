@@ -7,7 +7,7 @@ import java.util.Random;
  */
 public class CardReader {
 
-    private Random random = new Random();
+    private final Random random = new Random();
 
     /**
      * Prüfung, ob die PIN auf der Karte mit der vom Kunden eingegebenen übereinstimmt.

@@ -12,7 +12,7 @@ public class Main {
 
         System.out.println("Aktuelle Cocktail-Preise: ");
         Map<String, Double> cocktailPrices = cocktailPriceService.getPrices();
-        for (Map.Entry entry : cocktailPrices.entrySet()) {
+        for (Map.Entry<String, Double> entry : cocktailPrices.entrySet()) {
             System.out.println(entry.getKey() + ": " + entry.getValue());
         }
     }
