@@ -1,37 +1,21 @@
 package de.doubleslash.workshops.oodesign.atm;
 
 
-import de.doubleslash.workshops.oodesign.log.AuditLog;
+import de.doubleslash.workshops.oodesign.log.Log;
 
 /**
  * Konto-Service zum Verbuchen der Abhebungen.
  */
-public class AccountingRESTServiceClient {
+public class AccountingRESTServiceClient implements AccountingService {
 
-    /**
-     * Die {@link AccountingRESTServiceClient} Singleton-Instanz.
-     */
-    private static AccountingRESTServiceClient instance;
+    private final Log log;
 
     /**
      * Konstruktor. Erzeugt die {@link AccountingRESTServiceClient}-Instanz.
      */
-    private AccountingRESTServiceClient() {
-        AuditLog.info("AccountingRESTServiceClient-Instanz wird erzeugt.");
-    }
-
-    /**
-     * Liefert den {@link AccountingRESTServiceClient} zurück und stellt sicher, dass davon nur eine
-     * einzige Instanz existiert (Singleton).
-     *
-     * @return die {@link AccountingRESTServiceClient}-Instanz.
-     */
-    public static synchronized AccountingRESTServiceClient getInstance() {
-        AuditLog.info("Aufruf von AccountingRESTServiceClient.getInstance()");
-        if (instance == null) {
-            instance = new AccountingRESTServiceClient();
-        }
-        return instance;
+    public AccountingRESTServiceClient(Log log) {
+        this.log = log;
+        log.info("AccountingRESTServiceClient-Instanz wird erzeugt.");
     }
 
     /**
@@ -42,9 +26,10 @@ public class AccountingRESTServiceClient {
      *
      * @return {@code true} wenn die Verbuchung erfolgreich war, andernfalls {@code false}.
      */
+    @Override
     public boolean withdrawAmount(double amount, int bankAccountNumber) {
-        AuditLog.info("AccountingRESTServiceClient: Verbuche Auszahlung von Betrag %s auf Kontonummer %s.", amount, bankAccountNumber);
+        log.info("AccountingRESTServiceClient: Verbuche Auszahlung von Betrag %s auf Kontonummer %s.", amount, bankAccountNumber);
         return true;
     }
-    
+
 }

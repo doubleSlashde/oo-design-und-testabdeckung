@@ -6,7 +6,7 @@ package de.doubleslash.workshops.oodesign.atm;
 public class ATM {
 
     // Konto-Service zum Verbuchen der Abhebungen
-    private final AccountingRESTServiceClient accountingService;
+    private final AccountingService accountingService;
 
     // Kartenleser-Modul des Automats
     private final CardReader cardReader;
@@ -17,10 +17,11 @@ public class ATM {
     /**
      * Konstruktor. Erzeugt eine neue {@link ATM}-Instanz.
      */
-    public ATM() {
-        this.cardReader = new CardReader();
-        this.accountingService = AccountingRESTServiceClient.getInstance();
-        this.moneyDispenser = new MoneyDispenser();
+
+    public ATM(CardReader cardReader, AccountingService accountingService, MoneyDispenser moneyDispenser) {
+        this.cardReader = cardReader;
+        this.accountingService = accountingService;
+        this.moneyDispenser = moneyDispenser;
     }
 
     /**

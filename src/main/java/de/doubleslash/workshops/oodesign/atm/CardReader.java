@@ -28,7 +28,7 @@ public class CardReader {
      * @throws CardReaderException wenn das Auslesen fehlschlägt.
      */
     public int readAccountNumber() throws CardReaderException {
-        // Simuliert die Tatsache dass für jede Karte eine andere Kontonummer ausgelesen wird
+        // Simuliert die Tatsache, dass für jede Karte eine andere Kontonummer ausgelesen wird
         // (Rückgabe einer Zufallszahl zwischen 0 und 99.999)
         return Math.abs(random.nextInt(100_000));
     }
@@ -37,7 +37,7 @@ public class CardReader {
         // Simuliert die Prüfung mit korrekter bzw. falscher Eingabe der PIN (80% korrekt, 20% inkorrekt)
         int i = random.nextInt(5);
 
-        return (i == 0);
+        return (i != 0);
     }
 
 }

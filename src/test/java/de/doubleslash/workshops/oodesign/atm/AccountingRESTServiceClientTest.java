@@ -3,33 +3,33 @@ package de.doubleslash.workshops.oodesign.atm;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class AccountingRESTServiceClientTest {
+class AccountingRESTServiceClientTest {
 
-    private AccountingRESTServiceClient testee;
+    private TestLog testLog;
+
+    private AccountingService testee;
 
     @BeforeEach
     public void setUp() {
-        testee = AccountingRESTServiceClient.getInstance();
+        testLog = new TestLog();
+        testee = new AccountingRESTServiceClient(testLog);
     }
 
     @Test
-    public void accountingServiceShouldLogTransaction() {
-        // arrange
-        // ??? Die Log-Methoden sind statisch. Wie schaffen wir es, den AccountingRESTSerive so aufzusetzen dass wir die
-        //     von ihm geloggten Nachrichten im Nachhinein auswerten können?
+    void accountingServiceShouldLogTransaction() {
+        // arrange (nothing to do)
 
         // act
         testee.withdrawAmount(100.00, 543_210);
 
         // assert
         String expectedLogMessage = "AccountingRESTServiceClient: Verbuche Auszahlung von Betrag 100.0 auf Kontonummer 543210.";
-        // ??? wie prüfen wir dass die Transaktion geloggt wurde?
-        List<String> loggedMessages = Collections.emptyList(); // => woher bekommen wir die vom AccountingRESTSerive geloggten Nachrichten?
+        // prüfen dass die Transaktion geloggt wurde
+        List<String> loggedMessages = testLog.getInfoMessages();
         assertThat(loggedMessages).contains(expectedLogMessage);
     }
 

@@ -3,16 +3,7 @@ package de.doubleslash.workshops.oodesign.log;
 /**
  * Einfache AuditLog-Implementierung, die die Lognachrichten auf die Konsole schreibt (den Loglevel vorangestellt).
  */
-public class AuditLog {
-
-    private enum LogLevel {
-        INFO, WARN, ERROR;
-
-        @Override
-        public String toString() {
-            return "[" + name() + "]";
-        }
-    }
+public class AuditLog implements Log {
 
     /**
      * Loggt eine Nachricht mit LogLevel INFO.
@@ -20,7 +11,8 @@ public class AuditLog {
      * @param message die Nachricht.
      * @param messageArgs Liste von Objekten, die in die Nachricht hineinformatiert werden.
      */
-    public static void info(final String message, final Object... messageArgs) {
+    @Override
+    public void info(final String message, final Object... messageArgs) {
         log(LogLevel.INFO, message, messageArgs);
     }
 
@@ -31,7 +23,8 @@ public class AuditLog {
      * @param messageArgs Liste von Objekten, die in die Nachricht hineinformatiert werden.
      */
 
-    public static void warn(final String message, final Object... messageArgs) {
+    @Override
+    public void warn(final String message, final Object... messageArgs) {
         log(LogLevel.WARN, message, messageArgs);
     }
 
@@ -42,11 +35,12 @@ public class AuditLog {
      * @param messageArgs Liste von Objekten, die in die Nachricht hineinformatiert werden.
      */
 
-    public static void error(final String message, final Object... messageArgs) {
+    @Override
+    public void error(final String message, final Object... messageArgs) {
         log(LogLevel.ERROR, message, messageArgs);
     }
 
-    private static void log(final LogLevel logLevel, final String message, Object... messageArgs) {
+    private void log(final LogLevel logLevel, final String message, Object... messageArgs) {
         String formattedMessage = String.format(message, messageArgs);
         System.out.printf("%7s %s\n", logLevel, formattedMessage);
     }

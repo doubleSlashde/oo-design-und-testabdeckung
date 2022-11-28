@@ -2,101 +2,127 @@ package de.doubleslash.workshops.oodesign.atm;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.ArgumentMatchers.anyDouble;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.never;
 
 /**
  * Testet die Klasse ATM.
  */
-public class ATMTest {
+class ATMTest {
+
+    private CardReader cardReaderMock;
+    private AccountingService accountingServiceMock;
+    private MoneyDispenser moneyDispenserMock;
 
     // Instanz der zu testenden Klasse
     private ATM testee;
 
     @BeforeEach
-    public void setUp() {
-        testee = new ATM();
+    void setUp() {
+        cardReaderMock = Mockito.mock(CardReader.class);
+        accountingServiceMock = Mockito.mock(AccountingService.class);
+        moneyDispenserMock = Mockito.mock(MoneyDispenser.class);
+        testee = new ATM(cardReaderMock, accountingServiceMock, moneyDispenserMock);
     }
 
     @Test
-    public void accountingServiceShouldBeCalledWithCorrectAmountAndAccountNumberWhenPinIsCorrect() {
+    void accountingServiceShouldBeCalledWithCorrectAmountAndAccountNumberWhenPinIsCorrect() throws CardReaderException {
         // arrange
-        // ??? wie können wir die Kontonummer kennen bzw. bestimmen, die vom CardReader gelesen wird?
-        // ??? wie können wir simulieren dass die PIN vom Kunden korrekt eingegeben wurde?
+        // Kontonummer bestimmen, die vom CardReader gelesen wird
+        Mockito.when(cardReaderMock.readAccountNumber()).thenReturn(4711);
+
+        // simulieren dass die PIN vom Kunden korrekt eingegeben wurde
+        Mockito.when(cardReaderMock.verifyPin(1234)).thenReturn(true);
 
         // act
         testee.withdrawMoney(1234, 100.0);
 
         // assert
-        // ??? wurde der AccountingService mit korrektem Betrag u. Kontonummer aufgerufen? Wie können wir das prüfen?
-        fail("Cannot test this!");
+        // prüfen ob der AccountingService mit korrektem Betrag u. Kontonummer aufgerufen wurde
+        Mockito.verify(accountingServiceMock).withdrawAmount(100.0, 4711);
     }
 
     @Test
-    public void moneyShouldBeDispensedWhenPinIsCorrect() {
+    void moneyShouldBeDispensedWhenPinIsCorrect() {
         // arrange
-        // ??? wie können wir simulieren dass die PIN vom Kunden korrekt eingegeben wurde?
-        // ??? wie können wir simulieren dass die Verbuchung via account service erfolgreich war?
+        // simulieren dass die PIN vom Kunden korrekt eingegeben wurde
+        Mockito.when(cardReaderMock.verifyPin(1234)).thenReturn(true);
+        // simulieren dass die Verbuchung via account service erfolgreich war
+        Mockito.when(accountingServiceMock.withdrawAmount(anyDouble(), anyInt())).thenReturn(true);
 
         // act
         testee.withdrawMoney(1234, 100.0);
 
         // assert
-        // ??? wie können wir prüfen dass der die dispenseCash-Methode vom MoneyDispenser aufgerufen wurde?
-        fail("Cannot test this!");
+        // prüfen dass der die dispenseCash-Methode vom MoneyDispenser mit korrektem Betrag aufgerufen wurde
+        Mockito.verify(moneyDispenserMock).dispenseCash(100.0);
     }
 
     @Test
-    public void accountingServiceShouldNotBeCalledWhenCardCannotBeRead() {
+    void accountingServiceShouldNotBeCalledWhenCardCannotBeRead() throws CardReaderException {
         // arrange
-        // ??? wie können wir simulieren dass die PIN vom Kunden korrekt eingegeben wurde?
-        // ??? wie simulieren wir eine CardReaderException beim Aufruf von readAccountNumber() ?
+        // simulieren dass die PIN vom Kunden korrekt eingegeben wurde
+        Mockito.when(cardReaderMock.verifyPin(1234)).thenReturn(true);
+        // simulieren dass eine CardReaderException beim Aufruf von readAccountNumber() geworfen wird
+        Mockito.when(cardReaderMock.readAccountNumber()).thenThrow(new CardReaderException());
 
         // act
         testee.withdrawMoney(1234, 100.0);
 
         // assert
-        // ??? wie prüfen wir dass der AccountingService NICHT aufgerufen wurde?
-        fail("Cannot test this!");
+        // prüfen dass der AccountingService NICHT aufgerufen wurde
+        // withdrawAmount(...) soll überhaupt nicht aufgerufen werden, egal mit welchen Parametern. Daher anyDouble() und anyInt().
+        // würden beim Verify konkrete Werte angegeben werden, würde nur geprüft werden,
+        // dass die Methode nicht mit diesen Werten aufgerufen wurde
+        Mockito.verify(accountingServiceMock, never()).withdrawAmount(anyDouble(), anyInt());
     }
 
     @Test
-    public void accountingServiceShouldNotBeCalledWhenPinIsIncorrect() {
+    void accountingServiceShouldNotBeCalledWhenPinIsIncorrect() {
         // arrange
-        // ??? wie simulieren wir die Eingabe einer falschen PIN?
+        // simulieren der Eingabe einer falschen PIN
+        Mockito.when(cardReaderMock.verifyPin(anyInt())).thenReturn(false);
 
         // act
         testee.withdrawMoney(1234, 100.0);
 
         // assert
-        // ??? wie prüfen wir dass der AccountingService NICHT aufgerufen wurde?
-        fail("Cannot test this!");
+        // prüfen dass der AccountingService NICHT aufgerufen wurde (egal mit welchen Parametern)
+        Mockito.verify(accountingServiceMock, never()).withdrawAmount(anyDouble(), anyInt());
     }
 
     @Test
-    public void moneyShouldNotBeDispensedWhenPinIsIncorrect() {
+    void moneyShouldNotBeDispensedWhenPinIsIncorrect() {
         // arrange
-        // ??? wie simulieren wir die Eingabe einer falschen PIN?
+        // simulieren der Eingabe einer falschen PIN
+        Mockito.when(cardReaderMock.verifyPin(anyInt())).thenReturn(false);
 
         // act
         testee.withdrawMoney(1234, 100.0);
 
         // assert
-        // ??? wie prüfen wir dass der MoneyDispenser NICHT aufgerufen wurde?
-        fail("Cannot test this!");
+        // prüfen dass der MoneyDispenser NICHT aufgerufen wurde (egal mit welchem Parameter)
+        Mockito.verify(moneyDispenserMock, never()).dispenseCash(anyDouble());
     }
 
     @Test
-    public void moneyShouldNotBeDispensedWhenTransactionWasNotBooked() {
+    void moneyShouldNotBeDispensedWhenTransactionWasNotBooked() {
         // arrange
-        // ??? wie simulieren wir dass die Verbuchung via AccountingService nicht erfolgreich war?
+        // simulieren dass die PIN vom Kunden korrekt eingegeben wurde
+        Mockito.when(cardReaderMock.verifyPin(1234)).thenReturn(true);
+
+        // simulieren dass die Verbuchung via AccountingService nicht erfolgreich war
+        Mockito.when(accountingServiceMock.withdrawAmount(anyDouble(), anyInt())).thenReturn(false);
 
         // act
         testee.withdrawMoney(1234, 100.0);
 
         // assert
-        // ??? wie prüfen wir dass der MoneyDispenser NICHT aufgerufen wurde?
-        fail("Cannot test this!");
+        //prüfen dass der MoneyDispenser NICHT aufgerufen wurde (egal mit welchem Parameter)
+        Mockito.verify(moneyDispenserMock, never()).dispenseCash(anyDouble());
     }
 
 }
