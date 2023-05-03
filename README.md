@@ -196,14 +196,13 @@ getestet werden kann, muss sie zunächst einem Refactoring unterzogen werden. Da
 1. Die Testklasse `ATMTest` kompiliert ebenfalls nicht mehr. Bei der Instanzierung von `testee` (d.h. "Testkandidat") verwenden Sie 
    jedoch keine echten Instanzen der abhängigken Klassen, sondern sogenannte Mock-Objekte. Hierzu verwenden Sie das Mocking-Framework
    [Mockito](https://site.mockito.org/).
-   
-   Ein Mock-Objekt für die Klasse `CardReader` wird beispielsweise folgendermaßen erzeugt:
-   `CardReader cardReaderMock = Mockito.mock(CardReader.class);` 
-   
+
+   Ein Mock-Objekt für die Klasse `CardReader` wird beispielsweise folgendermaßen erzeugt:  
+   ```@Mock private CardReader cardReaderMock;```
+
    Die Mock-Objekte müssen als Instanzvariablen der Testklasse definiert werden, damit die Testmethoden darauf zugreifen können.
-   
-   __Tipp:__ Verwenden Sie statische imports, z.B. `import static org.mockito.Mockito.mock;`. 
-   Statt `Mockito.mock(...)` können Sie dann einfach `mock(...)` aufrufen. Das verbessert die Lesbarkeit des Codes.
+
+   __Hinweis:__ Die Annotation `@ExtendWith(MockitoExtension.class)` über dem Klassenheader sorgt dafür, dass alle mit `@Mock` annotierten Felder der Klasse automatisch mit Mockobjekten initialisiert werden.
 
 1. Jetzt können die Testmethoden in `ATMTest` fertig implementiert werden. Beginnen Sie mit der ersten Methode
    `accountingServiceShouldBeCalledWithCorrect...`.
