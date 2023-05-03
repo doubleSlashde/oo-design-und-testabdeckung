@@ -2,7 +2,10 @@ package de.doubleslash.workshops.oodesign.atm;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.mockito.ArgumentMatchers.anyDouble;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -11,10 +14,16 @@ import static org.mockito.Mockito.never;
 /**
  * Testet die Klasse ATM.
  */
+@ExtendWith(MockitoExtension.class)
 class ATMTest {
 
+    @Mock
     private CardReader cardReaderMock;
+
+    @Mock
     private AccountingService accountingServiceMock;
+
+    @Mock
     private MoneyDispenser moneyDispenserMock;
 
     // Instanz der zu testenden Klasse
@@ -22,9 +31,6 @@ class ATMTest {
 
     @BeforeEach
     void setUp() {
-        cardReaderMock = Mockito.mock(CardReader.class);
-        accountingServiceMock = Mockito.mock(AccountingService.class);
-        moneyDispenserMock = Mockito.mock(MoneyDispenser.class);
         testee = new ATM(cardReaderMock, accountingServiceMock, moneyDispenserMock);
     }
 
