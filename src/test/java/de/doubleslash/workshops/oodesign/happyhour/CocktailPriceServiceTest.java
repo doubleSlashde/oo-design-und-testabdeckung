@@ -1,6 +1,8 @@
 package de.doubleslash.workshops.oodesign.happyhour;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Map;
 
@@ -11,6 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * <p>
  * Problem: abhängig von der aktuellen Uhrzeit können jeweils nur zwei der Tests erfolgreich sein, die anderen beiden schlagen fehl.
  */
+@ExtendWith(MockitoExtension.class)
 class CocktailPriceServiceTest {
 
     @Test

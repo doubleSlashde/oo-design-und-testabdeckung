@@ -2,12 +2,15 @@ package de.doubleslash.workshops.oodesign.atm;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@ExtendWith(MockitoExtension.class)
 class AccountingRESTServiceClientTest {
 
     private AccountingRESTServiceClient testee;
