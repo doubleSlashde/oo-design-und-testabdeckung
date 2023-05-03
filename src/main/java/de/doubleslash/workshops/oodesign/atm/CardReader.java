@@ -37,7 +37,7 @@ public class CardReader {
         // Simuliert die Prüfung mit korrekter bzw. falscher Eingabe der PIN (80% korrekt, 20% inkorrekt)
         int i = random.nextInt(5);
 
-        return (i == 0);
+        return (i != 0);
     }
 
 }
